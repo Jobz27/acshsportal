@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AC SHS | School Grades Portal</title>
+
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1GMU8Qx-GqOM3ZLO9wwj6WhXXNq0r9oEz">
+  <link rel="shortcut icon" type="image/png" href="https://lh3.googleusercontent.com/d/1GMU8Qx-GqOM3ZLO9wwj6WhXXNq0r9oEz">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background-color: #f8fafc; }
+    iframe { width: 100%; height: 100%; border: none; display: block; }
+  </style>
+</head>
+<body>
+
+  <iframe id="portalFrame"
+    title="Asian College Senior High School Portal"
+    allow="fullscreen">
+  </iframe>
+
+  <script>
+    (function () {
+      var base = 'https://script.google.com/a/macros/asiancollege.edu.ph/s/AKfycbxSpQWgUpKXfh5PB4WlgS-Ni-kRgplrO1c1iXLrYu3vyFArxAkzAq2jyxYjgA4kKkTa/exec';
+
+      /* Staff login opens at  yoursite.vercel.app/staff  (or  yoursite.vercel.app/#staff) */
+      var path = location.pathname.replace(/\/+$/, '').toLowerCase();
+      var isStaff = path === '/staff' || location.hash.toLowerCase() === '#staff';
+
+      document.getElementById('portalFrame').src = isStaff ? base + '?mode=staff' : base;
+    })();
+  </script>
+
+</body>
+</html>
