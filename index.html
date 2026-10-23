@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>AC SHS | School Grades Portal</title>
 
+  <link rel="manifest" href="/manifest.webmanifest">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="AC SHS">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+
   <!-- FAVICON -->
   <link rel="icon" type="image/png" href="https://lh3.googleusercontent.com/d/1GMU8Qx-GqOM3ZLO9wwj6WhXXNq0r9oEz">
   <link rel="shortcut icon" type="image/png" href="https://lh3.googleusercontent.com/d/1GMU8Qx-GqOM3ZLO9wwj6WhXXNq0r9oEz">
@@ -34,5 +42,28 @@
     })();
   </script>
 
+<button id="installBtn" hidden style="position:fixed;left:16px;bottom:16px;z-index:99999;padding:.7rem 1.1rem;border:none;border-radius:12px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font:700 .9rem Inter,sans-serif;box-shadow:0 10px 24px -6px rgba(79,70,229,.6);cursor:pointer">⬇ Install app</button>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('/sw.js').catch(() => {}));
+  }
+  let deferred;
+  const btn = document.getElementById('installBtn');
+  const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault(); deferred = e;
+    if (!standalone) btn.hidden = false;
+  });
+  btn.addEventListener('click', async () => {
+    if (!deferred) return;
+    deferred.prompt(); await deferred.userChoice; deferred = null; btn.hidden = true;
+  });
+  window.addEventListener('appinstalled', () => { btn.hidden = true; });
+  // iPhone/iPad have no install prompt: show a hint instead
+  if (/iphone|ipad|ipod/i.test(navigator.userAgent) && !standalone) {
+    btn.hidden = false; btn.textContent = '⬇ Install app';
+    btn.onclick = () => alert('Tap the Share button, then "Add to Home Screen".');
+  }
+  
 </body>
 </html>
